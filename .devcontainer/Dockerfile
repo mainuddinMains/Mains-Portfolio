@@ -1,6 +1,6 @@
 
 # Node.js development environment
-FROM mcr.microsoft.com/devcontainers/javascript-node:1-24-bookworm
+FROM mcr.microsoft.com/devcontainers/javascript-node:4-24-bookworm
 
 # Install CLI tools under the non-root user
 USER node

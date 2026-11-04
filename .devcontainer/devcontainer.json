@@ -10,6 +10,8 @@
 
   "forwardPorts": [3000],
 
+  "postCreateCommand": "npm ci",
+
   "customizations": {
     "vscode": {
       "extensions": [
