@@ -37,6 +37,20 @@ describe("POST /api/revalidate", () => {
     parseBody.mockResolvedValue({ isValidSignature: true, body: { _type: "conference" } });
     const res = await POST(request());
     expect(res.status).toBe(200);
-    expect(revalidateTag).toHaveBeenCalledWith("content:conference", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("content:conference", { expire: 0 });
+  });
+
+  it("returns 400 for malformed requests", async () => {
+    parseBody.mockRejectedValue(new SyntaxError("Unexpected token"));
+    expect((await POST(request())).status).toBe(400);
+    expect(revalidateTag).not.toHaveBeenCalled();
+  });
+
+  it("returns 500 when revalidation fails so Sanity can retry", async () => {
+    parseBody.mockResolvedValue({ isValidSignature: true, body: { _type: "project" } });
+    revalidateTag.mockImplementation(() => {
+      throw new Error("cache unavailable");
+    });
+    expect((await POST(request())).status).toBe(500);
   });
 });

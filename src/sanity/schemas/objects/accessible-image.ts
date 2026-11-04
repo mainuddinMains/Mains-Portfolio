@@ -12,7 +12,7 @@ export const accessibleImage = defineType({
       title: "Alternative text",
       type: "string",
       description: "Describe the image for screen readers and SEO.",
-      validation: (rule) => rule.required().warning("Alt text improves accessibility."),
+      validation: (rule) => rule.required().error("Alt text is required for accessibility."),
     }),
   ],
 });

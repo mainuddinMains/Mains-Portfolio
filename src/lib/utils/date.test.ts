@@ -14,4 +14,8 @@ describe("date formatting", () => {
     expect(formatDateRange("2024-05-01", "2024-05-03")).toBe("May 2024");
     expect(formatDateRange(undefined, undefined)).toBe("");
   });
+
+  it("returns only the start date when the end is omitted and the ongoing label is empty", () => {
+    expect(formatDateRange("2024-01-15", undefined, "")).toBe("Jan 2024");
+  });
 });

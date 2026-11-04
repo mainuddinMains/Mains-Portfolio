@@ -20,7 +20,8 @@ changes are needed to add, edit, publish or delete content.
 
 ## Quick start
 
-Requires Node.js 22+ (`.nvmrc` pins 24).
+Requires Node.js `^22.22.2 || ^24.15.0 || >=26.0.0` (the minimum supported by jsdom and Vitest;
+`.nvmrc` pins 24).
 
 ```bash
 npm install
@@ -62,8 +63,11 @@ empty sections, and `/studio` explains how to configure it.
 
 ### Instant updates (optional webhook)
 
-Content is cached and refreshes on its own within about a minute. To make updates appear
-immediately:
+Content is cached and refreshes on its own within about a minute. A webhook expires the changed
+content type's cache as soon as Sanity delivers it. This is not a guaranteed instant update:
+requests handled before the webhook arrives (or while it is retried) still receive the cached
+content, and a browser that already has the page open may keep showing content from the client
+router cache until it reloads. To set up the webhook:
 
 1. Generate a secret: `openssl rand -hex 32`, then set it as `SANITY_REVALIDATE_SECRET`
    (in `.env.local` and in Vercel).
@@ -167,7 +171,8 @@ by default. To build against real content, set `NEXT_PUBLIC_SANITY_PROJECT_ID` a
    detected as Next.js.
 2. Add environment variables (Project → Settings → Environment Variables):
    `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SITE_URL`, and
-   optionally `SANITY_REVALIDATE_SECRET` and `SANITY_API_READ_TOKEN`.
+   optionally `NEXT_PUBLIC_SANITY_API_VERSION` (defaults to `2025-10-01`, see `src/sanity/env.ts`),
+   `SANITY_REVALIDATE_SECRET` and `SANITY_API_READ_TOKEN`.
 3. Add the production URL to Sanity CORS origins (with credentials).
 4. Optionally configure the revalidation webhook (see above).
 

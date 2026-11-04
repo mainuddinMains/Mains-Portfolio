@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { endDateField, startDateField, tagListField } from "../fields";
+import { endDateField, httpUrlValidation, startDateField, tagListField } from "../fields";
 
 export const experience = defineType({
   name: "experience",
@@ -13,7 +13,12 @@ export const experience = defineType({
       type: "string",
       validation: (r) => r.required(),
     }),
-    defineField({ name: "organizationUrl", title: "Organization website", type: "url" }),
+    defineField({
+      name: "organizationUrl",
+      title: "Organization website",
+      type: "url",
+      validation: httpUrlValidation,
+    }),
     defineField({ name: "location", title: "Location", type: "string" }),
     defineField({
       name: "employmentType",

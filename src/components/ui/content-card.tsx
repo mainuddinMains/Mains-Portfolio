@@ -15,7 +15,10 @@ interface ContentCardProps {
 export function ContentCard({ href, title, summary, meta, tags = [], image }: ContentCardProps) {
   return (
     <article className="group overflow-hidden rounded-xl border border-border bg-background transition hover:border-foreground/30">
-      <Link href={href} className="block h-full focus-visible:outline-none">
+      <Link
+        href={href}
+        className="block h-full rounded-xl focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-foreground"
+      >
         {image && (
           <CmsImage
             image={image}

@@ -20,5 +20,6 @@ export function formatDateRange(
   const from = formatMonthYear(start);
   const to = end ? formatMonthYear(end) : ongoingLabel;
   if (!from) return end ? to : "";
+  if (!to) return from;
   return from === to ? from : `${from} – ${to}`;
 }

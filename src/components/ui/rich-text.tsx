@@ -1,4 +1,8 @@
-import { PortableText, type PortableTextComponents } from "@portabletext/react";
+import {
+  PortableText,
+  type PortableTextComponents,
+  type PortableTextProps,
+} from "@portabletext/react";
 import type { GalleryImage, RichText as RichTextValue } from "@/domain/content";
 import { CmsImage } from "@/components/media/cms-image";
 import { YouTubeEmbed } from "@/components/media/youtube-embed";
@@ -43,8 +47,7 @@ export function RichText({ value }: { value?: RichTextValue }) {
   if (!value || value.length === 0) return null;
   return (
     <div className="prose-content space-y-4 leading-7">
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- opaque CMS rich text */}
-      <PortableText value={value as any} components={components} />
+      <PortableText value={value as PortableTextProps["value"]} components={components} />
     </div>
   );
 }

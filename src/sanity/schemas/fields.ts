@@ -1,6 +1,9 @@
-import { defineArrayMember, defineField } from "sanity";
+import { defineArrayMember, defineField, type UrlRule } from "sanity";
 
 /** Reusable field definitions shared by multiple document types. */
+
+/** URL validation that only accepts http:// and https:// links. */
+export const httpUrlValidation = (rule: UrlRule) => rule.uri({ scheme: ["http", "https"] });
 
 export const slugField = (source = "title") =>
   defineField({

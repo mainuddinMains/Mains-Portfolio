@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Revalidation is not configured" }, { status: 501 });
   }
 
+  let tag: string;
   try {
     const { isValidSignature, body } = await parseBody<{ _type?: string }>(req, secret, true);
     if (!isValidSignature) {
@@ -22,12 +23,19 @@ export async function POST(req: NextRequest) {
     if (!isContentType(body?._type)) {
       return NextResponse.json({ message: "Unknown or missing _type" }, { status: 400 });
     }
+    tag = contentTag(body._type);
+  } catch (error) {
+    console.error("Revalidation webhook received a malformed request", error);
+    return NextResponse.json({ message: "Bad request" }, { status: 400 });
+  }
 
-    const tag = contentTag(body._type);
-    revalidateTag(tag, "max");
+  try {
+    // Expire immediately so unpublished or deleted documents are never served from cache.
+    revalidateTag(tag, { expire: 0 });
     return NextResponse.json({ revalidated: true, tag });
   } catch (error) {
-    console.error("Revalidation webhook failed", error);
-    return NextResponse.json({ message: "Bad request" }, { status: 400 });
+    // 5xx lets Sanity retry the webhook.
+    console.error("Revalidation failed", error);
+    return NextResponse.json({ message: "Revalidation failed" }, { status: 500 });
   }
 }

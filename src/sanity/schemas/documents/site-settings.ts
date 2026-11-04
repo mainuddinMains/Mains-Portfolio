@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { httpUrlValidation } from "../fields";
 
 /** Singleton document (fixed id "siteSettings"), see structure.ts. */
 export const siteSettings = defineType({
@@ -35,10 +36,30 @@ export const siteSettings = defineType({
       type: "object",
       group: "social",
       fields: [
-        defineField({ name: "github", title: "GitHub", type: "url" }),
-        defineField({ name: "linkedin", title: "LinkedIn", type: "url" }),
-        defineField({ name: "scholar", title: "Google Scholar", type: "url" }),
-        defineField({ name: "twitter", title: "X / Twitter", type: "url" }),
+        defineField({
+          name: "github",
+          title: "GitHub",
+          type: "url",
+          validation: httpUrlValidation,
+        }),
+        defineField({
+          name: "linkedin",
+          title: "LinkedIn",
+          type: "url",
+          validation: httpUrlValidation,
+        }),
+        defineField({
+          name: "scholar",
+          title: "Google Scholar",
+          type: "url",
+          validation: httpUrlValidation,
+        }),
+        defineField({
+          name: "twitter",
+          title: "X / Twitter",
+          type: "url",
+          validation: httpUrlValidation,
+        }),
         defineField({ name: "email", title: "Email", type: "email" }),
       ],
     }),

@@ -11,7 +11,7 @@ export const galleryImage = defineType({
       name: "alt",
       title: "Alternative text",
       type: "string",
-      validation: (rule) => rule.required().warning("Alt text improves accessibility."),
+      validation: (rule) => rule.required().error("Alt text is required for accessibility."),
     }),
     defineField({ name: "caption", title: "Caption", type: "string" }),
   ],
