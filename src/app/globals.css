@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --muted: #5b6270;
+  --surface: #f4f5f7;
+  --border: #e4e6ea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0c0e;
+    --foreground: #ededed;
+    --muted: #a0a6b1;
+    --surface: #17191d;
+    --border: #262a30;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Minimal rich-text styles until the full design system is built. */
+.prose-content h2 {
+  @apply mt-8 text-2xl font-semibold;
+}
+.prose-content h3 {
+  @apply mt-6 text-xl font-semibold;
+}
+.prose-content ul {
+  @apply list-disc pl-6;
+}
+.prose-content ol {
+  @apply list-decimal pl-6;
+}
+.prose-content blockquote {
+  @apply border-l-4 border-border pl-4 text-muted italic;
+}
