@@ -23,6 +23,27 @@ describe("Sanity schemas", () => {
     expect(videos?.of?.[0].type).toBe("youtubeVideo");
   });
 
+  type Field = { name: string; type: string; of?: { type: string }[] };
+  const fieldsOf = (name: string) =>
+    (schemaTypes.find((t) => t.name === name) as unknown as { fields: Field[] }).fields;
+
+  it.each(["project", "conference"])(
+    "%s supports a description, cover, captioned gallery and multiple videos",
+    (name) => {
+      const fields = fieldsOf(name);
+      const field = (n: string) => fields.find((f) => f.name === n);
+      expect(field("summary")?.type).toBe("text");
+      expect(field("body")?.type).toBe("richText");
+      expect(field("coverImage")?.type).toBe("accessibleImage");
+      expect(field("gallery")?.of?.[0].type).toBe("galleryImage");
+      expect(field("videos")).toMatchObject({ type: "array", of: [{ type: "youtubeVideo" }] });
+    },
+  );
+
+  it("gallery images have alt text and a caption", () => {
+    expect(fieldsOf("galleryImage").map((f) => f.name)).toEqual(["alt", "caption"]);
+  });
+
   it("treats site settings as a singleton", () => {
     expect(singletonTypes.has("siteSettings")).toBe(true);
   });

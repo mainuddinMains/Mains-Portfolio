@@ -47,6 +47,30 @@ empty sections, and `/studio` explains how to configure it.
 4. Restart `npm run dev` and open <http://localhost:3000/studio>. Log in with your Sanity account.
 5. Open **Site settings** first, fill in your name, headline and bio, and publish.
 
+### Publishing your first project or conference
+
+1. In `/studio`, open **Project** (or **Conference**) and create a new document.
+2. Fill in the title (or conference name), click **Generate** next to **Slug**, and add a
+   summary. Conferences also need a role and a start date.
+3. On the **Media** tab, add a cover image, photos in the gallery (each needs alt text and can
+   have a caption), and one or more YouTube links (watch, `youtu.be`, shorts, embed and live
+   URLs are accepted).
+4. Click **Publish**. Drafts are never shown on the public site.
+5. Open `/projects` or `/conferences`. The item appears within about a minute, or immediately
+   if the webhook below is configured. Its detail page is at `/projects/<slug>` or
+   `/conferences/<slug>`. A slug that was not in the last build is rendered on its first visit,
+   so no redeploy is needed.
+
+### Troubleshooting
+
+| Symptom                                               | Fix                                                                                                                                        |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Studio login fails, or the browser shows a CORS error | Add the exact origin (for example `http://localhost:3000`) under sanity.io/manage → API → CORS origins with **Allow credentials** checked. |
+| `/studio` says "Sanity Studio is not configured"      | `NEXT_PUBLIC_SANITY_PROJECT_ID` is missing or invalid. Fix `.env.local` and restart `npm run dev`.                                         |
+| Published content never appears                       | Check that you clicked **Publish** and that the slug is set. If the dataset is private, set `SANITY_API_READ_TOKEN` (Viewer).              |
+| A page shows "Something went wrong"                   | The content source could not be reached. Check the server log, your network, and the project id and dataset.                               |
+| A video is missing                                    | The URL could not be parsed as a YouTube video. Studio flags invalid URLs before publishing.                                               |
+
 ### Authentication and security
 
 - `/studio` is protected by Sanity's own authentication. Only users invited as project members
