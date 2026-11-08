@@ -29,8 +29,8 @@ export function VideoList({ videos }: { videos: VideoEmbed[] }) {
     <section aria-label="Videos" className="space-y-4">
       <h2 className="text-xl font-semibold">Videos</h2>
       <div className="grid gap-6 md:grid-cols-2">
-        {playable.map((video) => (
-          <YouTubeEmbed key={video.youtubeId} video={video} />
+        {playable.map((video, index) => (
+          <YouTubeEmbed key={`${video.youtubeId}-${index}`} video={video} />
         ))}
       </div>
     </section>
